@@ -40,7 +40,7 @@ export default function UpdateUserForm({username}: Props) {
 
   const onSubmit: SubmitHandler<FormSchemaType> = async (values) => {
     try {
-      const { data } = await axios.post(`/api/user/${session?.user?.email}`, {
+      const { data } = await axios.put(`/api/user/${session?.user?.email}`, {
         values,
       });
 

@@ -5,7 +5,7 @@ import { eq } from "drizzle-orm";
 import { auth } from "@/lib/auth/auth";
 
 
-export async function POST(req: Request, {params}:{params:{userEmail:string}}){
+export async function PUT(req: Request, {params}:{params:{userEmail:string}}){
   try {
     const session = await auth();
 
