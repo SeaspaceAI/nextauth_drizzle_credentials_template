@@ -6,13 +6,19 @@ declare module "next-auth" {
    */
   interface Session {
     user: {
-      /** The user's postal address. */
-      id: string;
       name: string;
       email: string;
       image: string;
       provider: string;
       emailVerified: date;
+      role: string;
     };
+  }
+  interface User {
+    name: string;
+    email: string;
+    image: string;
+    emailVerified: date;
+    role: string;
   }
 }

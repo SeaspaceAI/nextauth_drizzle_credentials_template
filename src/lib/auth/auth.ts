@@ -2,7 +2,6 @@ import bcrypt from 'bcryptjs';
 import { db } from "@/db"
 import { DrizzleAdapter } from "@auth/drizzle-adapter"
 import NextAuth, { Account, AuthError, CredentialsSignin, Profile, User } from "next-auth"
-import { Adapter } from "next-auth/adapters"
 import { JWT } from "next-auth/jwt"
 import Credentials from "next-auth/providers/credentials"
 import { users } from '@/db/schema';
@@ -61,7 +60,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       isNewUser,
     }: {
       token: JWT;
-      user?: User | Adapter | undefined;
+      user?: User;
       account?: Account | null | undefined;
       profile?: Profile | undefined;
       isNewUser?: boolean | undefined;
@@ -69,14 +68,17 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (user) {
         token.provider = account?.provider;
+        token.role = user.role
+        token.emailVerified = user.emailVerified
       }
 
       return token;
     },
-    async session({ session, token }: { session: any; token: JWT }) {
-
+    async session({ session, token }: { session: any; token: JWT; }) {
       if (session.user) {
         session.user.provider = token.provider;
+        session.user.role = token.role;
+        session.user.emailVerified = token.emailVerified;
       }
       
       return session;
